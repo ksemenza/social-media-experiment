@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "test": "jest --watch",
-    "server":"nodemon index.js"
+    "test": "jest --watch",
+    "server": "nodemon index.js"
   },
   "author": "Kim Semenza",
   "license": "ISC",
