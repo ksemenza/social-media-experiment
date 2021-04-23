@@ -52,6 +52,16 @@ router.get('/:id/details', restricted, (req, res) => {
         res.status(500).json({error:err, message:`Error User's post id ${id} not found`})
     })
 })
+router.get('/:id/reactions', restricted, (req, res) => {
+    const id = req.params.id;
+    postModel.getPostReactions(id)
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({error:err, message:`Error User's post id ${id} not found`})
+    })
+})
 
 // DELETE USER BY ID
 router.delete('/:id', restricted, (req, res) => {

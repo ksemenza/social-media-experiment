@@ -15,50 +15,68 @@ exports.up = function (knex, Promise) {
       tbl.string("title", 255).notNullable();
       tbl.string("entry").notNullable();    
       tbl
-        .int("user_id")
+        .integer("user_id")
         .unsigned()
         .notNullable()
         .references("id")
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+      tbl
+        .string("reactions")
+        .unsigned()
+        .references("post_id")
+        .inTable("post_reactions")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     })
 
     .createTable("comments", (tbl) => {
-      tbl.increments("id").index();
+      tbl.increments("id").index().unique();
       tbl.timestamp("created_at").defaultTo(knex.fn.now());
       tbl.string("comment").notNullable();
       tbl
-        .string("post_id")
+        .integer("post_id")
         .unsigned()
         .notNullable()
         .references("id")
         .inTable("posts")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+              tbl
+                .string("reactions")
+                .unsigned()
+                .references("reactions")
+                .inTable("comment_reactions")
+                .onUpdate("CASCADE")
+                .onDelete("CASCADE");
     })
 
-    .createTable("reactions", (tbl) => {
-      tbl.string("like").notNullable();
-      tbl.string("dislike").notNullable();
-      tbl.string("love").notNullable();
+    .createTable("post_reactions", (tbl) => {
+      tbl.integer("like");
+      tbl.integer("dislike")
+      tbl.integer("love")
        tbl
-          .string("post_id")
-          .unsigned()
-          .references("id")
-          .inTable("posts")
-          .onUpdate("CASCADE")
-          .onDelete("CASCADE");
+         .integer("post_id")
+         .unsigned()
+         .references("id")
+         .inTable("posts")
+         .onUpdate("CASCADE")
+         .onDelete("CASCADE");
+    })
+
+    .createTable("comment_reactions", (tbl) => {
+      tbl.integer("like");
+      tbl.integer("dislike");
+      tbl.integer("love");
         tbl
-          .string("comment_id")
+          .integer("comment_id")
           .unsigned()
           .references("id")
           .inTable("comments")
           .onUpdate("CASCADE")
           .onDelete("CASCADE");
     })
-
-
 };
 
 exports.down = function (knex, Promise) {
@@ -66,5 +84,6 @@ exports.down = function (knex, Promise) {
     .dropTableIfExists("users")
     .dropTableIfExists("posts")
     .dropTableIfExists("comments")
-    .dropTableIfExists("notifications");
+    .dropTableIfExists("post_reactions")
+    .dropTableIfExists("comment_reactions");
 };

@@ -7,11 +7,9 @@ const bodyParser = require("body-parser");
 
 
 const userRouter = require("../user/user-router");
-
-
 const postRouter = require("../routers/post-router");
-
 const commentRouter = require("../routers/comment-router");
+const reactionRouter = require("../routers/reaction-router");
 /* ROUTER FILE PATH
 const notificationRouter = require("../routers/notification-router.js");
 */
@@ -29,6 +27,7 @@ server.use(cors());
 server.use("/api/auth", userRouter);
 server.use("/api/post", postRouter);
 server.use("/api/comment", commentRouter);
+server.use("/api/reaction", reactionRouter);
 /* Connect router to endpoint
 server.use("/api/notification", notificationRouter);
 */
